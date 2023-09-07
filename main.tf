@@ -112,3 +112,34 @@ resource "aws_security_group" "class-sg" {
     Name = "${var.env_prefix}-sg"
   }
 }
+
+data "aws_ami" "latest-amazon-linux-image" {
+  most_recent = true
+  owners = [ "amazon" ]
+  filter {
+    name = "name"
+    values = ["al2023-ami-2023.*-6.1-x86_64"]
+  }
+}
+
+output "aws_ami_id" {
+  value = data.aws_ami.latest-amazon-linux-image.id
+  
+}
+
+resource "aws_instance" "class-ec2-server" {
+  ami = data.aws_ami.latest-amazon-linux-image.id
+  instance_type = var.instance_type
+
+  subnet_id = aws_subnet.class-subnet-1.id
+  vpc_security_group_ids = [aws_security_group.class-sg.id]
+  availability_zone = var.avail_zone[0]
+
+  associate_public_ip_address = true
+  key_name = "FREECLASSKEY"
+
+  tags = {
+    Name: "${var.env_prefix}-ec2-server"
+  }
+  
+}
