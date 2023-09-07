@@ -2,17 +2,6 @@ provider "aws" {
     region = "eu-west-2"
 }
 
-variable "vpc_cidr_block" {}
-variable "subnet_cidr_block" {
-  type = list(string)
-}
-variable "avail_zone" {
-  type = list(string)
-}
-variable "env_prefix" {}
-variable "default-route" {}
-variable "my_ip" {}
-
 resource "aws_vpc" "class-vpc" {
     cidr_block = var.vpc_cidr_block
     enable_dns_hostnames = true
