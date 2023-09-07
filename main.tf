@@ -64,11 +64,6 @@ resource "aws_route_table_association" "rtb-subnet-2" {
   route_table_id = aws_default_route_table.class-main-rtb.id
 }
 
-/*resource "aws_route_table_association" "rtb-class-igw" {
-  gateway_id = aws_internet_gateway.class-internet-gateway.id
-  route_table_id = aws_route_table.class-route-table.id
-}*/
-
 resource "aws_route" "custom-rtb-igw" {
   route_table_id = aws_route_table.class-route-table.id
   destination_cidr_block = var.default-route
