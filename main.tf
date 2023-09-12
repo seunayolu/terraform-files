@@ -141,5 +141,4 @@ resource "aws_instance" "class-ec2-server" {
   tags = {
     Name: "${var.env_prefix}-ec2-server"
   }
-  
 }
