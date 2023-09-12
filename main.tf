@@ -18,6 +18,8 @@ module "class-subnet" {
   env_prefix = var.env_prefix
   vpc_id = aws_vpc.class-vpc.id
   default_route_table_id = aws_vpc.class-vpc.default_route_table_id
+  my_ip = var.my_ip
+  default-route = var.default-route
 }
 
 resource "aws_security_group" "class-sg" {
