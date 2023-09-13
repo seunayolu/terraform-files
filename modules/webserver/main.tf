@@ -59,7 +59,7 @@ resource "aws_instance" "class-ec2-server" {
   associate_public_ip_address = true
   key_name = "FREECLASSKEY"
 
-  user_data = file("docker-script.sh")
+  user_data = file ("docker-script.sh")
 
   user_data_replace_on_change = true
   
