@@ -48,7 +48,7 @@ data "aws_ami" "latest-amazon-linux-image" {
   }
 }
 
-resource "aws_instance" "class-ec2-server" {
+resource "aws_instance" "class-ec2" {
   ami = data.aws_ami.latest-amazon-linux-image.id
   instance_type = var.instance_type
 
