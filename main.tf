@@ -11,7 +11,7 @@ terraform {
   backend "s3" {
     bucket         	   = "workspace-terrabackend"
     key                = "state/terraform.tfstate"
-    region         	   = "us-east-2"
+    region         	   = "eu-west-2"
   }
 }
 
