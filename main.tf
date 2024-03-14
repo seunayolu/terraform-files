@@ -7,13 +7,13 @@ provider "aws" {
   region = var.region
 }
 
-terraform {
+/*terraform {
   backend "s3" {
     bucket         	   = "workspace-terrabackend"
     key                = "state/terraform.tfstate"
     region         	   = "eu-west-2"
   }
-}
+}*/
 
 data "aws_availability_zones" "azs" {}
 
