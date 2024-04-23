@@ -2,7 +2,7 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.0"
 
-  cluster_name = var.clusterName
+  cluster_name    = var.clusterName
   cluster_version = "1.29"
 
   cluster_endpoint_public_access = true
@@ -19,29 +19,29 @@ module "eks" {
     }
   }
 
-  vpc_id = module.vpc.vpc_id
-  subnet_ids = module.vpc.private_subnets
+  vpc_id                   = module.vpc.vpc_id
+  subnet_ids               = module.vpc.private_subnets
   control_plane_subnet_ids = module.vpc.public_subnets
 
   tags = {
     environment = "development"
-    application = "class-eks"
+    application = "masterclasseks"
   }
 
   eks_managed_node_groups = {
     class_one = {
-      min_size = 2
-      max_size = 4
+      min_size     = 2
+      max_size     = 4
       desired_size = 2
 
-      instance_types = ["t3.small"]
+      instance_types = [var.instance_type[2]]
     }
   }
 
   # Cluster Access Entry
 
   enable_cluster_creator_admin_permissions = true
-  authentication_mode = "API_AND_CONFIG_MAP"
+  authentication_mode                      = "API_AND_CONFIG_MAP"
 
   /*access_entries = {
     darey_eks = {

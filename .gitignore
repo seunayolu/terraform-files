@@ -9,6 +9,6 @@
 
 # remove variables file
 
-variable.tf
+variables.tf
 *.tfvars
 
