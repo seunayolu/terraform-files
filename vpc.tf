@@ -14,16 +14,28 @@ module "vpc" {
   enable_dns_support   = true
 
   tags = {
+<<<<<<< HEAD
     "kubernetes.io/cluster/classeks" = "shared"
   }
 
   public_subnet_tags = {
     "kubernetes.io/cluster/classeks" = "shared"
+=======
+    "kubernetes.io/cluster/masterclasseks" = "shared"
+  }
+
+  public_subnet_tags = {
+    "kubernetes.io/cluster/masterclasseks" = "shared"
+>>>>>>> 2f281048658609b6fd6faaddfccacadfa74f8e62
     "kubernetes.io/role/elb"                  = 1
   }
 
   private_subnet_tags = {
+<<<<<<< HEAD
     "kubernetes.io/cluster/classeks" = "shared"
+=======
+    "kubernetes.io/cluster/masterclasseks" = "shared"
+>>>>>>> 2f281048658609b6fd6faaddfccacadfa74f8e62
     "kubernetes.io/role/internal-elb"         = 1
   }
 

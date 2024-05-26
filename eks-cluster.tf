@@ -25,7 +25,11 @@ module "eks" {
 
   tags = {
     environment = "development"
+<<<<<<< HEAD
     application = "classeks"
+=======
+    application = "masterclasseks"
+>>>>>>> 2f281048658609b6fd6faaddfccacadfa74f8e62
   }
 
   eks_managed_node_groups = {
