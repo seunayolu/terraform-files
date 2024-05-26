@@ -78,3 +78,4 @@ else
         sudo systemctl start $SVC
         cd ~
         sudo rm -rf /tmp/webfiles
+fi
