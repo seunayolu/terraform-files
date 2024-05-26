@@ -147,7 +147,7 @@ resource "aws_instance" "master-class-instance" {
   availability_zone = var.avail_zone[1]
 
   associate_public_ip_address = true
-  key_name = "JENK"
+  key_name = "devopskey-eu-west-1"
 
   user_data = file("UserData.sh")
 

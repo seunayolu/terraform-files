@@ -1,0 +1,75 @@
+# Define the services for the application
+
+services:
+  # MySQL DB Service
+  devclouddb:
+    build:
+      context: ./Docker-files/db
+    image: oluwaseuna/devclouddb
+    container_name: devclouddb
+    ports:
+      - "3306:3306"
+    volumes:
+      - devclouddbdata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=devclouddbpass
+      - MYSQL_DATABASE=accounts
+  
+  # phpmyadmin to Manage MySQL DB
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: devclouddb
+      PMA_USER: root
+      PMA_PASSWORD: devclouddbpass
+    depends_on:
+      - devclouddb
+  
+  # Memcache Container
+
+  devcloudmemcache:
+    image: memcached
+    container_name: devcloudmemcache
+    ports:
+      - "11211:11211"
+  
+  # Rabbit MQ Container
+
+  devcloudrmq:
+    image: rabbitmq
+    container_name: devcloudrmq
+    ports:
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+  # Tomcat App Server Container
+
+  devcloudapp:
+    build:
+      context: ./Docker-files/app
+    container_name: devcloudapp
+    image: oluwaseuna/devcloudapp
+    ports:
+      - "8080:8080"
+    volumes: 
+      - devcloudappdata:/usr/local/tomcat/webapps
+
+  # Nginx Proxy Server for the Tomcat App Container
+
+  devcloudweb:
+    build: 
+      context: ./Docker-files/web
+    container_name: devcloudweb
+    image: oluwaseuna/devcloudweb
+    ports:
+      - "80:80"
+volumes:
+  devcloudappdata:
+  devclouddbdata:
