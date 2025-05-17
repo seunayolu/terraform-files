@@ -1,6 +1,13 @@
+provider "aws" {
+  region = "eu-west-2"
+}
+
+# data "aws_availability_zone" "azs" {}
+
 resource "aws_vpc" "master-class-vpc" {
   cidr_block           = var.vpc_cidr_block
   enable_dns_hostnames = true
+  enable_dns_support   = true
   tags = {
     Name : "${var.env_prefix}-vpc"
   }
@@ -8,8 +15,8 @@ resource "aws_vpc" "master-class-vpc" {
 
 resource "aws_subnet" "master-class-sub-1" {
   vpc_id                  = aws_vpc.master-class-vpc.id
-  cidr_block              = var.subnet_cidr_block[0]
-  availability_zone       = var.avail_zone[0]
+  cidr_block              = cidrsubnet(var.vpc_cidr_block, 4, 1)
+  availability_zone       = var.azs[0]
   map_public_ip_on_launch = true
   tags = {
     Name : "${var.env_prefix}-sub-1"
@@ -19,8 +26,8 @@ resource "aws_subnet" "master-class-sub-1" {
 
 resource "aws_subnet" "master-class-sub-2" {
   vpc_id                  = aws_vpc.master-class-vpc.id
-  cidr_block              = var.subnet_cidr_block[1]
-  availability_zone       = var.avail_zone[1]
+  cidr_block              = cidrsubnet(var.vpc_cidr_block, 4, 2)
+  availability_zone       = var.azs[1]
   map_public_ip_on_launch = true
   tags = {
     Name : "${var.env_prefix}-sub-2"
@@ -134,28 +141,19 @@ data "aws_ami" "master-class-ami" {
   }
 }
 
-output "aws_ami_id" {
-  value = data.aws_ami.master-class-ami.id
-}
-
 resource "aws_instance" "master-class-instance" {
   ami           = data.aws_ami.master-class-ami.id
   instance_type = var.instance_type[0]
 
   subnet_id              = aws_subnet.master-class-sub-2.id
   vpc_security_group_ids = [aws_security_group.master-class-sg.id]
-  availability_zone      = var.avail_zone[1]
+  availability_zone      = var.azs[1]
 
   associate_public_ip_address = true
-  key_name                    = "devopskey-eu-west-1"
 
   user_data = file("UserData.sh")
 
   tags = {
     Name : "${var.env_prefix}-instance"
   }
-}
-
-output "aws_instance_public_ip" {
-  value = aws_instance.master-class-instance.public_ip
 }
