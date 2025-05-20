@@ -18,9 +18,7 @@ pipeline {
         booleanParam(name: 'TF_BACKEND_ENCRYPT', defaultValue: true, description: 'Enable encryption for Terraform state')
         choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Terraform action to perform')
     }
-    environment {
-        TF_WORKSPACE      = "${params.ENVIRONMENT}"
-    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -69,7 +67,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                        terraform workspace select ${env.TF_WORKSPACE} || terraform workspace new ${env.TF_WORKSPACE}
+                        terraform workspace select ${params.ENVIRONMENT} || terraform workspace new ${params.ENVIRONMENT}
                     """
                 }
             }
