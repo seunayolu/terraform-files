@@ -6,10 +6,5 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket  = "infrabucket-iacgitops"
-    key     = "terramodule/terraform.tfstate"
-    region  = "eu-west-2"
-    encrypt = true
-  }
+  backend "s3" {}
 }
