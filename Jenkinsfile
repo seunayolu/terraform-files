@@ -13,7 +13,7 @@ pipeline {
         string(name: 'KEY_ROTATION_DAYS', defaultValue: '365', description: 'KMS key rotation period in days')
         string(name: 'KMS_KEY_ALIAS', defaultValue: 'alias/docker-key', description: 'KMS key alias')
         string(name: 'TF_BACKEND_BUCKET', defaultValue: 'infrabucket-iacgitops', description: 'S3 bucket for Terraform state')
-        string(name: 'TF_BACKEND_KEY', defaultValue: "module-${params.ENVIRONMENT}/state.tfstate", description: 'Terraform state key name')
+        string(name: 'TF_BACKEND_KEY', defaultValue: "module/state.tfstate", description: 'Terraform state key name')
         string(name: 'TF_BACKEND_DYNAMODB_TABLE', defaultValue: 'tfstate-dynamo-lock', description: 'DynamoDB table for state locking')
         booleanParam(name: 'TF_BACKEND_ENCRYPT', defaultValue: true, description: 'Enable encryption for Terraform state')
         choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Terraform action to perform')
@@ -53,7 +53,7 @@ pipeline {
                         sh """
                             terraform init \
                                 -backend-config="bucket=${params.TF_BACKEND_BUCKET}" \
-                                -backend-config="key=${params.TF_BACKEND_KEY}" \
+                                -backend-config="key=${params.ENVIRONMENT}-${params.TF_BACKEND_KEY}" \
                                 -backend-config="region=${params.AWS_REGION}" \
                                 -backend-config="dynamodb_table=${params.TF_BACKEND_DYNAMODB_TABLE}" \
                                 -backend-config="encrypt=${params.TF_BACKEND_ENCRYPT}"
