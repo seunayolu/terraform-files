@@ -11,7 +11,6 @@ pipeline {
         string(name: 'EC2_INSTANCE_TYPE', defaultValue: 't2.micro', description: 'EC2 instance type')
         string(name: 'DELETE_WINDOWS', defaultValue: '7', description: 'KMS key deletion window in days')
         string(name: 'KEY_ROTATION_DAYS', defaultValue: '365', description: 'KMS key rotation period in days')
-        string(name: 'KMS_KEY_ALIAS', defaultValue: 'alias/docker-key', description: 'KMS key alias')
         string(name: 'TF_BACKEND_BUCKET', defaultValue: 'infrabucket-iacgitops', description: 'S3 bucket for Terraform state')
         string(name: 'TF_BACKEND_KEY', defaultValue: "module/state.tfstate", description: 'Terraform state key name')
         string(name: 'TF_BACKEND_DYNAMODB_TABLE', defaultValue: 'tfstate-dynamo-lock', description: 'DynamoDB table for state locking')
@@ -32,14 +31,13 @@ pipeline {
                         aws_region = "${params.AWS_REGION}"
                         project_name = "${params.PROJECT_NAME}"
                         environment = "${params.ENVIRONMENT}"
-                        default_route = "${params.DEFAULT_ROUTE}"
+                        default-route = "${params.DEFAULT_ROUTE}"
                         vpc_cidr = "${params.VPC_CIDR}"
                         my_ip = "${params.MY_IP}"
                         portnumber = ${params.PORTNUMBER}
                         ec2_instance_type = "${params.EC2_INSTANCE_TYPE}"
                         delete_windows = ${params.DELETE_WINDOWS}
                         key_rotation_days = ${params.KEY_ROTATION_DAYS}
-                        kms_key_alias = "${params.KMS_KEY_ALIAS}"
                     """
                 }
             }
