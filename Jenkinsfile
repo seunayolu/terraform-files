@@ -69,7 +69,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                        terraform workspace select ${params.ENVIRONMENT} || terraform workspace new ${params.ENVIRONMENT}
+                        terraform workspace select ${env.TF_WORKSPACE} || terraform workspace new ${env.TF_WORKSPACE}
                     """
                 }
             }
