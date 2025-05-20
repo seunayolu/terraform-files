@@ -1,35 +1,70 @@
 provider "aws" {
-    region = "eu-west-2"
+  region = var.aws_region
 }
 
-resource "aws_vpc" "class-vpc" {
-    cidr_block = var.vpc_cidr_block
-    enable_dns_hostnames = true
-    enable_dns_support = true
-    tags = {
-      Name: "${var.env_prefix}-vpc"
-    }
-}
+# VPC and Network Module
+module "network" {
+  source = "./modules/network"
 
-module "class-subnet" {
-  source = "./modules/subnets"
-  subnet_cidr_block = var.subnet_cidr_block
-  avail_zone = var.avail_zone
-  env_prefix = var.env_prefix
-  vpc_id = aws_vpc.class-vpc.id
-  default_route_table_id = aws_vpc.class-vpc.default_route_table_id
-  my_ip = var.my_ip
   default-route = var.default-route
+  project_name  = var.project_name
+  vpc_cidr      = var.vpc_cidr
+  environment   = var.environment
 }
 
-module "class-ec2-server" {
-  source = "./modules/webserver"
-  vpc_id = aws_vpc.class-vpc.id
-  my_ip = var.my_ip
-  env_prefix = var.env_prefix
-  image_name = var.image_name
-  instance_type = var.instance_type
-  avail_zone = var.avail_zone
+# Security Groups Module
+module "security" {
+  source = "./modules/security"
+
+  vpc_id        = module.network.vpc_id
+  vpc_cidr      = var.vpc_cidr
   default-route = var.default-route
-  subnet_id = module.class-subnet.class-subnet-1.id
+  project_name  = var.project_name
+  environment   = var.environment
+  portnumber    = var.portnumber
+  my_ip         = var.my_ip
+
+}
+
+module "ec2" {
+  source = "./modules/ec2"
+
+  project_name       = var.project_name
+  instance-profile   = module.iam.iam_instance_profile
+  keyname            = module.keypair.keypair
+  environment        = var.environment
+  vpc_id             = module.network.vpc_id
+  aws_region         = var.aws_region
+  subnet_id          = module.network.public_subnet_ids[0]
+  security_group_ids = [module.security.docker_compose_sg]
+  ec2_instance_type  = var.ec2_instance_type
+  depends_on         = [module.s3]
+}
+
+# IAM Module
+module "iam" {
+  source = "./modules/iam"
+
+  project_name = var.project_name
+  environment  = var.environment
+}
+
+module "kms" {
+  source            = "./modules/kms"
+  environment       = var.environment
+  project_name      = var.project_name
+  key_rotation_days = var.key_rotation_days
+  delete_windows    = var.delete_windows
+}
+
+module "s3" {
+  source       = "./modules/s3"
+  environment  = var.environment
+  project_name = var.project_name
+  kms_key_arn  = module.kms.key_arn
+  kms_key_id   = module.kms.key_id
+}
+
+module "keypair" {
+  source = "./modules/keypair"
 }

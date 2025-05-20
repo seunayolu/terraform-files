@@ -1,0 +1,36 @@
+services:
+  moodleapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: moodle-web:1.0
+    container_name: moodle-web
+    ports:
+      - 80:80
+    volumes:
+      - moodledata:/var/www/moodledata
+    depends_on:
+      - postgres
+  
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      - POSTGRES_DB=moodle
+      - POSTGRES_USER=moodle_user
+      - POSTGRES_PASSWORD=moodle_password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "81:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
+  moodledata:
