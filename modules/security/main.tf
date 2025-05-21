@@ -4,7 +4,7 @@ resource "aws_security_group" "docker_compose" {
   vpc_id      = var.vpc_id
 
   tags = {
-    Name        = "DockerSg"
+    Name        = "DockerSg-${var.environment}"
     Environment = "${var.environment}"
   }
 }

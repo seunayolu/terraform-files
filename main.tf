@@ -66,5 +66,7 @@ module "s3" {
 }
 
 module "keypair" {
-  source = "./modules/keypair"
+  source       = "./modules/keypair"
+  environment  = var.environment
+  project_name = var.project_name
 }

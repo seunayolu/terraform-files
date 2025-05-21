@@ -4,11 +4,11 @@ resource "tls_private_key" "ec2" {
 }
 
 resource "aws_key_pair" "ec2" {
-  key_name   = "ec2_key"
+  key_name   = "${var.environment}-${var.project_name}"
   public_key = tls_private_key.ec2.public_key_openssh
 }
 
 resource "local_file" "private_key" {
   content  = tls_private_key.ec2.private_key_pem
-  filename = "${path.module}/ec2_key.pem"
+  filename = "${path.module}/${var.environment}-${var.project_name}.pem"
 }
