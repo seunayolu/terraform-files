@@ -97,7 +97,7 @@ pipeline {
             }
             steps {
                 script {
-                    archiveArtifacts artifacts: 'modules/keypair/ec2_key.pem', allowEmptyArchive: false
+                    archiveArtifacts artifacts: "modules/keypair/${params.ENVIRONMENT}-${params.PROJECT_NAME}.pem", allowEmptyArchive: false
                 }
             }
         }
