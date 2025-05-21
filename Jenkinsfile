@@ -71,6 +71,9 @@ pipeline {
             }
         }
         stage('Terraform Plan') {
+            when {
+                expression { params.ACTION == 'apply'}
+            }
             steps {
                 sh "terraform plan -var-file=variables.tfvars -out=tfplan"
             }
