@@ -5,7 +5,6 @@ terraform {
       version = "~> 5.9"
     }
   }
-
   backend "s3" {
     bucket  = "infrabucket-iacgitops"
     key     = "terramodule/terraform.tfstate"

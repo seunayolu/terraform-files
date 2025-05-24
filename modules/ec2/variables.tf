@@ -23,16 +23,6 @@ variable "security_group_ids" {
   type        = list(string)
 }
 
-variable "vpc_id" {
-  description = "VPC Id"
-  type        = string
-}
-
-variable "aws_region" {
-  description = "REGION"
-  type        = string
-}
-
 variable "instance-profile" {
   description = "EC2 IAM Instance Profile"
   type        = string

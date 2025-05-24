@@ -13,11 +13,6 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "vpc_cidr" {
-  description = "CIDR block for VPC"
-  type        = string
-}
-
 variable "default-route" {
   description = "default"
   type        = string
