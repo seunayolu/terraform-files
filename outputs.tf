@@ -5,5 +5,5 @@ output "instance_ip" {
 
 output "vpc_id" {
   description = "Network Module VPC ID"
-  value = module.network.vpc_id
+  value       = module.network.vpc_id
 }

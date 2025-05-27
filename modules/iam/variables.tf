@@ -3,11 +3,6 @@ variable "project_name" {
   type        = string
 }
 
-variable "environment" {
-  description = "Environment name"
-  type        = string
-}
-
 variable "assume_role" {
   default     = "assume_role.json"
   description = "assume role for ec2"
