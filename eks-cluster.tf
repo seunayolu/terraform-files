@@ -112,8 +112,8 @@ module "eks_blueprints_addons" {
           adminPassword = "admin"
           ingress = {
             enabled = true
+            ingressClassName = "alb"
             annotations = {
-              "kubernetes.io/ingress.class"                                  = "alb"
               "alb.ingress.kubernetes.io/scheme"                             = "internet-facing"
               "alb.ingress.kubernetes.io/target-type"                        = "ip"
               "alb.ingress.kubernetes.io/certificate-arn"                    = "arn:aws:acm:eu-west-2:442042522885:certificate/9067718a-f937-44fe-9bd9-0b62ad9ff251"
@@ -145,18 +145,18 @@ module "eks_blueprints_addons" {
   }
 }
 
-# module "ecr" {
-#   source  = "terraform-aws-modules/ecr/aws"
-#   version = "2.3.0"
+module "ecr" {
+  source  = "terraform-aws-modules/ecr/aws"
+  version = "2.4.0"
 
-#   repository_name    = var.ecr_repo
-#   registry_scan_type = "BASIC"
-#   repository_type    = "private"
+  repository_name    = var.ecr_repo
+  registry_scan_type = "BASIC"
+  repository_type    = "private"
 
-#   create_lifecycle_policy = false
-#   repository_image_tag_mutability = "MUTABLE"
+  create_lifecycle_policy         = false
+  repository_image_tag_mutability = "MUTABLE"
 
-#   tags = {
-#     Terraform = "true"
-#   }
-# }
+  tags = {
+    Terraform = "true"
+  }
+}

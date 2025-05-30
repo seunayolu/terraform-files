@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webapp-ingress
+  namespace: app
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-2:442042522885:certificate/59d8122f-0538-4749-be86-9f7aeb8dda80,arn:aws:acm:eu-west-2:442042522885:certificate/9067718a-f937-44fe-9bd9-0b62ad9ff251
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/group.name: my-alb
+    alb.ingress.kubernetes.io/conditions.phpmyadmin-teachdev-online: '[{"field":"source-ip","sourceIpConfig":{"values":["105.113.52.90/32"]}}]'
+spec:
+  ingressClassName: alb
+  rules:
+  - host: webapp.classof25.online
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: php-app-service
+            port:
+              number: 80
+  - host: phpmyadmin.teachdev.online
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: phpmyadmin-service
+            port:
+              number: 8081
