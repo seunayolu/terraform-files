@@ -24,7 +24,7 @@ sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv
 sudo unzip awscliv2.zip
 sudo ./aws/install
 
-aws s3 cp s3://docker-dev-classof25bucket/ /home/ubuntu/ --recursive --exclude "*" --include "Dockerfile" --include "compose.yml"
+aws s3 cp s3://"${bucket_name}"/ /home/ubuntu/ --recursive --exclude "*" --include "Dockerfile" --include "compose.yml"
 
 cd /home/ubuntu
 

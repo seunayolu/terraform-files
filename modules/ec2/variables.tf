@@ -41,3 +41,8 @@ variable "instance-profile" {
 variable "keyname" {
   description = "EC2 Keypair"
 }
+
+variable "bucket_name" {
+  type        = string
+  description = "S3 Bucket"
+}

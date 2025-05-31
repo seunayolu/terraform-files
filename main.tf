@@ -39,6 +39,7 @@ module "ec2" {
   security_group_ids = [module.security.docker_compose_sg]
   ec2_instance_type  = var.ec2_instance_type
   depends_on         = [module.s3]
+  bucket_name        = module.s3.bucket_name
 }
 
 # IAM Module
