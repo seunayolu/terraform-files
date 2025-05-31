@@ -19,7 +19,7 @@ resource "aws_instance" "docker_instance" {
   user_data = base64encode(local.ec2_userdata_script)
 
   tags = {
-    Name        = "${var.project_name}-ec2"
+    Name        = "${var.project_name}-${var.environment}-ec2"
     Environment = var.environment
   }
 }
