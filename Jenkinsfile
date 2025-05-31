@@ -91,7 +91,7 @@ pipeline {
                 expression { params.ACTION == 'apply' }
             }
             steps {
-                sh 'terraform apply -auto-approve tfplan'
+                sh 'terraform apply tfplan'
             }
         }
         stage('Archive Keypair') {
