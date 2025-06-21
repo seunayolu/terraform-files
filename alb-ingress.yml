@@ -1,8 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: webapp-ingress
-  namespace: app
+  name: online-boutique
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
@@ -10,27 +9,16 @@ metadata:
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
     alb.ingress.kubernetes.io/ssl-redirect: "443"
     alb.ingress.kubernetes.io/group.name: my-alb
-    alb.ingress.kubernetes.io/conditions.phpmyadmin-teachdev-online: '[{"field":"source-ip","sourceIpConfig":{"values":["105.113.52.90/32"]}}]'
 spec:
   ingressClassName: alb
   rules:
-  - host: webapp.classof25.online
+  - host: online-boutique.classof25.online
     http:
       paths:
       - pathType: Prefix
         path: /
         backend:
           service:
-            name: php-app-service
+            name: frontend
             port:
               number: 80
-  - host: phpmyadmin.teachdev.online
-    http:
-      paths:
-      - pathType: Prefix
-        path: /
-        backend:
-          service:
-            name: phpmyadmin-service
-            port:
-              number: 8081

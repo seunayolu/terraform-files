@@ -89,7 +89,7 @@ module "eks_blueprints_addons" {
 
   aws_load_balancer_controller = {
     chart         = "aws-load-balancer-controller"
-    chart_version = "1.13.2"
+    chart_version = "1.13.3"
     repository    = "https://aws.github.io/eks-charts"
     namespace     = "kube-system"
     values = [
@@ -103,7 +103,7 @@ module "eks_blueprints_addons" {
 
   kube_prometheus_stack = {
     chart         = "kube-prometheus-stack"
-    chart_version = "72.7.0"
+    chart_version = "75.4.0"
     repository    = "https://prometheus-community.github.io/helm-charts"
     namespace     = "monitoring"
     values = [
@@ -120,7 +120,6 @@ module "eks_blueprints_addons" {
               "alb.ingress.kubernetes.io/listen-ports"                       = "[{\"HTTP\": 80}, {\"HTTPS\": 443}]"
               "alb.ingress.kubernetes.io/ssl-redirect"                       = "443"
               "alb.ingress.kubernetes.io/group.name"                         = "my-alb"
-              "alb.ingress.kubernetes.io/conditions.grafana-teachdev-online" = "[{\"field\":\"source-ip\",\"sourceIpConfig\":{\"values\":[\"105.113.52.90/32\"]}}]"
             }
             hosts = ["grafana.teachdev.online"]
             path  = "/"
@@ -145,18 +144,18 @@ module "eks_blueprints_addons" {
   }
 }
 
-module "ecr" {
-  source  = "terraform-aws-modules/ecr/aws"
-  version = "2.4.0"
+# module "ecr" {
+#   source  = "terraform-aws-modules/ecr/aws"
+#   version = "2.4.0"
 
-  repository_name    = var.ecr_repo
-  registry_scan_type = "BASIC"
-  repository_type    = "private"
+#   repository_name    = var.ecr_repo
+#   registry_scan_type = "BASIC"
+#   repository_type    = "private"
 
-  create_lifecycle_policy         = false
-  repository_image_tag_mutability = "MUTABLE"
+#   create_lifecycle_policy         = false
+#   repository_image_tag_mutability = "MUTABLE"
 
-  tags = {
-    Terraform = "true"
-  }
-}
+#   tags = {
+#     Terraform = "true"
+#   }
+# }
